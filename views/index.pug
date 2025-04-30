@@ -1,0 +1,46 @@
+//- doctype html
+//- html(lang="en")
+//-   head
+//-     meta(charset="UTF-8")
+//-     meta(name="viewport" content="width=device-width, initial-scale=1.0")
+//-     link(href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet")
+//-     link(rel="stylesheet" href="/stylesheets/main-page.css")
+//-     title University of Adelaide Clubs
+//-   body
+//-     nav.navbar.navbar-expand-lg.justify-content-center
+//-       div#logo
+//-         img(src="/images/main-logo.png" alt="Logo")
+//-       a.navbar-brand.mx-auto.title University of Adelaide Clubs
+//-       .navbar-collapse.collapse#navbarNav
+//-         ul.navbar-nav.ml-auto
+//-           if user
+//-             li.nav-item
+//-               a.nav-link.nav-button(href="/profile-page.html") Profile
+//-             li.nav-item
+//-               a.nav-link.nav-button(href="/logout") Logout
+//-           else
+//-             li.nav-item
+//-               a.nav-link.nav-button(href="/login-page.html") Login
+//-             li.nav-item
+//-               a.nav-link.nav-button(href="/signup-page.html") Sign Up
+//-     .container
+//-       h1.text-center.my-4 ANNOUNCEMENTS
+//-       #announcements.mb-5
+//-         p.announcement-text CLUB
+//-         p.announcement-text ANNOUNCEMENTS
+//-         p.announcement-text HERE
+//-       #content-below-announcements
+//-         h1.text-center.my-4 FUTURE EVENTS
+//-         #events.row
+//-           .col-lg-4.event Event 1
+//-             button.rsvp-button Login to RSVP for Event
+//-           .col-lg-4.event Event 2
+//-             button.rsvp-button Login to RSVP for Event
+//-           .col-lg-4.event Event 3
+//-             button.rsvp-button Login to RSVP for Event
+//-           .col-lg-4.event Event 4
+//-             button.rsvp-button Login to RSVP for Event
+//-           .col-lg-4.event Event 5
+//-             button.rsvp-button Login to RSVP for Event
+//-           .col-lg-4.event Event 6
+//-             button.rsvp-button Login to RSVP for Event
