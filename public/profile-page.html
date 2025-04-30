@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/settings.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@material/web@0.14.1/dist/mdc.css">
+    <link rel="stylesheet" href="/stylesheets/main-page.css">
+    <title>Aussie Paws & Claws Shelter</title>
+</head>
+
+<body>
+    <nav>
+        <div id="auth-links">
+            <!-- Authentication links will be dynamically inserted here -->
+        </div>
+    </nav>
+    <div id="header"></div>
+
+    <div class="hover-area">
+        <div class="arrow-icon">
+            <i class="bi bi-arrow-right-circle-fill"></i>
+        </div>
+    </div> <!-- Hover area for sidebar -->
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="sidebar" style="top: 60px;">
+                    <h3>Settings</h3>
+                    <ul id="settings-links">
+                        <li><a href="#" id="personal-settings-link">
+                                <i class="bi bi-person-circle"></i> Personal</a></li>
+                        <!-- Manager and Admin links will be added dynamically based on role -->
+                    </ul>
+                    <button class="btn-hide-sidebar"><i class="bi bi-arrow-left-circle-fill"></i></button>
+                    <!-- Arrow icon for hide sidebar button -->
+                </div>
+            </div>
+            <div class="col-md-8">
+                <!-- Personal Settings -->
+                <div id="personal-settings">
+                    <form id="personal-settings-form">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="first-name">First Name</label>
+                                    <input type="text" class="form-control" id="first-name" name="firstName" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="last-name">Last Name</label>
+                                    <input type="text" class="form-control" id="last-name" name="lastName" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Current Password</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="password" name="currentPassword">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-outline-secondary" id="toggle-current-password">Show</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="new-password">New Password</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="new-password" name="newPassword">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-outline-secondary" id="toggle-new-password">Show</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <!-- Container for subscription cards -->
+                        <h3>Your Subscribed Shelters</h3>
+                        <div id="subscribed-shelters-container" class="mt-4">
+                            <!-- Subscription cards will be dynamically added here -->
+                        </div>
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#joinShelterModal">Join a Shelter</button>
+                        <button type="button" class="btn btn-danger" id="delete-account">Delete Account</button>
+                    </form>
+                </div>
+
+                <!-- Manager Settings -->
+                <div id="manager-settings" style="display:none;">
+                    <h3>Shelter Announcements</h3>
+                    <div class="announcement-container">
+                        <!-- Announcement Cards will be dynamically added here -->
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#createAnnouncementModal">Create Announcement</button>
+                    </div>
+                    <h3>Events</h3>
+                    <div class="event-container">
+                        <!-- Event Cards will be dynamically added here -->
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary" data-toggle="modal"
+                            data-target="#createEventModal">Create Event</button>
+                    </div>
+                    <!-- Adopt a Pet Section -->
+                    <h3>Adopt a Pet</h3>
+                    <div class="pet-container">
+                        <!-- Pet Cards will be dynamically added here -->
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addPetModal">Add
+                            Pet Up For Adoption</button>
+                    </div>
+                    <!-- Subscribed Users Section -->
+                    <h3>Subscribed Users</h3>
+                    <div class="subscribed-users-container">
+                        <!-- User Cards will be dynamically added here -->
+                    </div>
+                </div>
+
+                <div id="admin-settings" style="display:none;">
+                    <h3>Shelters</h3>
+                    <div class="shelter-container mt-4">
+                        <!-- Shelter Cards will be dynamically added here -->
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-info" data-toggle="modal"
+                            data-target="#createShelterModal">Create Shelter</button>
+                        <button type="button" class="btn btn-info" data-toggle="modal"
+                            data-target="#editShelterManagerModal">Edit Shelter Manager</button>
+                    </div>
+                    <h3>Announcements</h3>
+                    <div class="announcement-container mt-4">
+                        <!-- Announcement Cards will be dynamically added here -->
+                    </div>
+                    <h3>Events</h3>
+                    <div class="event-container mt-4">
+                        <!-- Event Cards will be dynamically added here -->
+                    </div>
+                    <h3>Manage Users</h3>
+                    <table class="table table-bordered user-table mt-4">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- User rows will be dynamically added here -->
+                        </tbody>
+                    </table>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addAdminModal">Add
+                            Admin</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Create Shelter Modal -->
+    <div class="modal fade" id="createShelterModal" tabindex="-1" role="dialog"
+        aria-labelledby="createShelterModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createShelterModalLabel">Create Shelter</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="create-shelter-form">
+                        <div class="form-group">
+                            <label for="shelter-name">Shelter Name</label>
+                            <input type="text" class="form-control" id="shelter-name" name="shelterName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="shelter-manager-email">Shelter Manager Email</label>
+                            <input type="email" class="form-control" id="shelter-manager-email"
+                                name="shelterManagerEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="shelter-location">Location</label>
+                            <input type="text" class="form-control" id="shelter-location" name="shelterLocation">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create Shelter</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Join Shelter Modal -->
+    <div class="modal fade" id="joinShelterModal" tabindex="-1" role="dialog" aria-labelledby="joinShelterModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="joinShelterModalLabel">Join a Shelter</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="join-shelter-form">
+                        <div class="form-group">
+                            <label for="shelter-join-select">Select Shelter</label>
+                            <select class="form-control" id="shelter-join-select" name="shelterId">
+                                <!-- Shelters will be populated here dynamically -->
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Join</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Pet Modal -->
+    <div class="modal fade" id="editPetModal" tabindex="-1" role="dialog" aria-labelledby="editPetModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form id="editPetForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editPetModalLabel">Edit Pet Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="editPetId" name="pet_id">
+                        <div class="form-group">
+                            <label for="editPetName">Name</label>
+                            <input type="text" class="form-control" id="editPetName" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editPetType">Type</label>
+                            <input type="text" class="form-control" id="editPetType" name="type">
+                        </div>
+                        <div class="form-group">
+                            <label for="editPetGender">Gender</label>
+                            <select class="form-control" id="editPetGender" name="gender">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editPetAge">Age</label>
+                            <input type="text" class="form-control" id="editPetAge" name="age">
+                        </div>
+                        <div class="form-group">
+                            <label for="editPetBreed">Breed</label>
+                            <input type="text" class="form-control" id="editPetBreed" name="breed">
+                        </div>
+                        <div class="form-group">
+                            <label for="editPetDesexed">Desexed</label>
+                            <select class="form-control" id="editPetDesexed" name="desexed">
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editPetImageUrl">Image URL</label>
+                            <input type="text" class="form-control" id="editPetImageUrl" name="image_url">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Shelter Manager Modal -->
+    <div class="modal fade" id="editShelterManagerModal" tabindex="-1" role="dialog"
+        aria-labelledby="editShelterManagerModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editShelterManagerModalLabel">Edit Shelter Manager</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-shelter-manager-form">
+                        <div class="form-group">
+                            <label for="shelter-select">Select Shelter</label>
+                            <select class="form-control" id="shelter-select" name="shelterId" required>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="new-manager-email">New Manager Email</label>
+                            <input type="email" class="form-control" id="new-manager-email" name="newManagerEmail"
+                                required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Manager</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Edit Announcement Modal -->
+    <div class="modal fade" id="editAnnouncementModalAdmin" tabindex="-1" role="dialog"
+        aria-labelledby="editAnnouncementModalLabelAdmin" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editAnnouncementModalLabelAdmin">Edit Announcement (Admin)</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-announcement-form-admin">
+                        <input type="hidden" id="edit-announcement-id-admin">
+                        <div class="form-group">
+                            <label for="edit-announcement-title-admin">Title</label>
+                            <input type="text" class="form-control" id="edit-announcement-title-admin" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-announcement-description-admin">Description</label>
+                            <textarea class="form-control" id="edit-announcement-description-admin" rows="3"
+                                required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-announcement-time-admin">Time</label>
+                            <input type="datetime-local" class="form-control" id="edit-announcement-time-admin"
+                                required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Edit Event Modal -->
+    <div class="modal fade" id="editEventModalAdmin" tabindex="-1" role="dialog"
+        aria-labelledby="editEventModalLabelAdmin" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editEventModalLabelAdmin">Edit Event (Admin)</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-event-form-admin">
+                        <input type="hidden" id="edit-event-id-admin">
+                        <div class="form-group">
+                            <label for="edit-event-title-admin">Title</label>
+                            <input type="text" class="form-control" id="edit-event-title-admin" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-event-description-admin">Description</label>
+                            <textarea class="form-control" id="edit-event-description-admin" rows="3"
+                                required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-event-date-admin">Date</label>
+                            <input type="datetime-local" class="form-control" id="edit-event-date-admin" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-event-image-url-admin">Image URL</label>
+                            <input type="text" class="form-control" id="edit-event-image-url-admin" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Admin Modal -->
+    <div class="modal fade" id="addAdminModal" tabindex="-1" role="dialog" aria-labelledby="addAdminModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addAdminModalLabel">Add Admin</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="add-admin-form">
+                        <div class="form-group">
+                            <label for="admin-email">Email</label>
+                            <input type="email" class="form-control" id="admin-email" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Promote to Admin</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Announcement Modal -->
+    <div class="modal fade" id="createAnnouncementModal" tabindex="-1" role="dialog"
+        aria-labelledby="createAnnouncementModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createAnnouncementModalLabel">Create Announcement</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="create-announcement-form">
+                        <div class="form-group">
+                            <label for="announcement-title">Title</label>
+                            <input type="text" class="form-control" id="announcement-title" name="title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="announcement-description">Description</label>
+                            <textarea class="form-control" id="announcement-description" name="description"
+                                required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create Announcement</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Adding Pet -->
+    <div class="modal fade" id="addPetModal" tabindex="-1" role="dialog" aria-labelledby="addPetModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form id="addPetForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addPetModalLabel">Add Pet Up For Adoption</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="petName">Name</label>
+                            <input type="text" class="form-control" id="petName" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="petType">Type</label>
+                            <input type="text" class="form-control" id="petType" name="type">
+                        </div>
+                        <div class="form-group">
+                            <label for="petGender">Gender</label>
+                            <select class="form-control" id="petGender" name="gender">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="petAge">Age</label>
+                            <input type="text" class="form-control" id="petAge" name="age">
+                        </div>
+                        <div class="form-group">
+                            <label for="petBreed">Breed</label>
+                            <input type="text" class="form-control" id="petBreed" name="breed">
+                        </div>
+                        <div class="form-group">
+                            <label for="petDesexed">Desexed</label>
+                            <select class="form-control" id="petDesexed" name="desexed">
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="petImageUrl">Image URL</label>
+                            <input type="text" class="form-control" id="petImageUrl" name="image_url">
+                        </div>
+                        <!-- Hidden input for shelter_id -->
+                        <input type="hidden" id="shelterId" name="shelter_id">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Add Pet</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="errorModalBody">
+                    <!-- Error message will be injected here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Announcement Modal -->
+    <div class="modal fade" id="editAnnouncementModal" tabindex="-1" role="dialog"
+        aria-labelledby="editAnnouncementModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editAnnouncementModalLabel">Edit Announcement</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-announcement-form">
+                        <input type="hidden" id="edit-announcement-id">
+                        <div class="form-group">
+                            <label for="edit-announcement-title">Title</label>
+                            <input type="text" class="form-control" id="edit-announcement-title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-announcement-description">Description</label>
+                            <textarea class="form-control" id="edit-announcement-description" rows="3"
+                                required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Event Modal -->
+    <div class="modal fade" id="createEventModal" tabindex="-1" role="dialog" aria-labelledby="createEventModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createEventModalLabel">Create Event</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="create-event-form">
+                        <div class="form-group">
+                            <label for="event-title">Title</label>
+                            <input type="text" class="form-control" id="event-title" name="title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="event-description">Description</label>
+                            <textarea class="form-control" id="event-description" name="description"
+                                required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="event-date">Date</label>
+                            <input type="datetime-local" class="form-control" id="event-date" name="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="event-image-url">Image URL</label>
+                            <input type="text" class="form-control" id="event-image-url" name="image_url">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create Event</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Event Modal -->
+    <div class="modal fade" id="editEventModal" tabindex="-1" role="dialog" aria-labelledby="editEventModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editEventModalLabel">Edit Event</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editEventForm">
+                        <input type="hidden" id="editEventId" name="event_id">
+                        <div class="form-group">
+                            <label for="editEventTitle">Title</label>
+                            <input type="text" class="form-control" id="editEventTitle" name="title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEventDescription">Description</label>
+                            <textarea class="form-control" id="editEventDescription" name="description"
+                                required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEventDate">Date</label>
+                            <input type="datetime-local" class="form-control" id="editEventDate" name="event_date"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEventImageUrl">Image URL</label>
+                            <input type="url" class="form-control" id="editEventImageUrl" name="image_url">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RSVP List Modal -->
+    <div class="modal fade" id="rsvpListModal" tabindex="-1" aria-labelledby="rsvpListModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rsvpListModalLabel">RSVP List</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul id="rsvpUserList"></ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/javascripts/header.js"></script> <!-- Include header.js -->
+    <script src="/javascripts/profile-page.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@material/web@0.14.1/dist/mdc.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const shelterSelect = document.getElementById('shelter-join-select');
+
+            // Fetch all shelters
+            fetch('/api/join-shelter')
+                .then(response => response.json())
+                .then(allSheltersData => {
+                    if (!allSheltersData.success) {
+                        console.error('Failed to fetch shelters:', allSheltersData.message);
+                        return;
+                    }
+
+                    // Fetch user's subscribed shelters
+                    fetch('/api/user-shelters')
+                        .then(response => response.json())
+                        .then(userSheltersData => {
+                            if (!userSheltersData.success) {
+                                console.error('Failed to fetch subscribed shelters:', userSheltersData.message);
+                                return;
+                            }
+
+                            const subscribedShelterIds = userSheltersData.shelters.map(shelter => shelter.shelter_id);
+
+                            // Filter out subscribed shelters from the all shelters list
+                            const availableShelters = allSheltersData.shelters.filter(shelter => !subscribedShelterIds.includes(shelter.shelter_id));
+
+                            // Populate the dropdown with available shelters
+                            availableShelters.forEach(shelter => {
+                                const option = document.createElement('option');
+                                option.value = shelter.shelter_id;
+                                option.textContent = shelter.shelter_name;
+                                shelterSelect.appendChild(option);
+                            });
+
+                            // Display subscribed shelters in cards
+                            displaySubscribedShelters(userSheltersData.shelters);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching subscribed shelters:', error);
+                        });
+                })
+                .catch(error => {
+                    console.error('Error fetching shelters:', error);
+                });
+        });
+
+        function displaySubscribedShelters(shelters) {
+            const container = document.getElementById('subscribed-shelters-container');
+            container.innerHTML = '';
+
+            shelters.forEach(shelter => {
+                const card = document.createElement('div');
+                card.className = 'card mb-3';
+
+                const cardBody = document.createElement('div');
+                cardBody.className = 'card-body';
+
+                const cardTitle = document.createElement('h5');
+                cardTitle.className = 'card-title';
+                cardTitle.textContent = shelter.shelter_name;
+
+                const removeButton = document.createElement('button');
+                removeButton.className = 'btn btn-danger';
+                removeButton.textContent = 'Remove Subscription';
+                removeButton.addEventListener('click', function () {
+                    removeSubscription(shelter.shelter_id);
+                });
+
+                cardBody.appendChild(cardTitle);
+                cardBody.appendChild(removeButton);
+                card.appendChild(cardBody);
+                container.appendChild(card);
+            });
+        }
+
+        function removeSubscription(shelterId) {
+            // Fetch the logged-in user's ID
+            fetch('/api/get-user-id')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.user_id) {
+                        const userId = data.user_id;
+
+                        const requestData = {
+                            user_id: userId,
+                            shelter_id: shelterId
+                        };
+
+                        // Make the API call to unsubscribe the user from the shelter
+                        fetch('/api/unsubscribe', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(requestData)
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    alert('Successfully removed the subscription!');
+                                    // Optionally refresh the subscribed shelters list
+                                    fetchSubscribedShelters();
+                                } else {
+                                    alert('Failed to remove the subscription: ' + data.message);
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error removing subscription:', error);
+                                alert('An error occurred. Please try again later.');
+                            });
+                    } else {
+                        alert('Failed to retrieve user ID. Please log in again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching user ID:', error);
+                    alert('An error occurred. Please try again later.');
+                });
+        }
+
+        function fetchSubscribedShelters() {
+            fetch('/api/user-shelters')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        displaySubscribedShelters(data.shelters);
+                    } else {
+                        console.error('Failed to fetch subscribed shelters:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching subscribed shelters:', error);
+                });
+        }
+
+        document.getElementById('join-shelter-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const shelterSelect = document.getElementById('shelter-join-select');
+
+            // Fetch the logged-in user's ID
+            fetch('/api/get-user-id')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.user_id) {
+                        const userId = data.user_id;
+                        const shelterId = shelterSelect.value;
+
+                        const requestData = {
+                            user_id: userId,
+                            shelter_id: shelterId
+                        };
+
+                        // Make the API call to subscribe the user to the shelter
+                        fetch('/api/subscribe', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(requestData)
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    alert('Successfully joined the shelter!');
+                                    // Optionally close the modal and reset the form
+                                    $('#joinShelterModal').modal('hide');
+                                    document.getElementById('join-shelter-form').reset();
+
+                                    // Refresh the subscribed shelters list
+                                    fetchSubscribedShelters();
+                                } else if (data.message === 'Already subscribed') {
+                                    alert('You are already subscribed to this shelter.');
+                                } else {
+                                    alert('Failed to join the shelter: ' + data.message);
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error joining shelter:', error);
+                                alert('An error occurred. Please try again later.');
+                            });
+                    } else {
+                        alert('Failed to retrieve user ID. Please log in again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching user ID:', error);
+                    alert('An error occurred. Please try again later.');
+                });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          fetch('/auth/status')
+            .then(response => response.json())
+            .then(data => {
+              const authLinks = document.getElementById('auth-links');
+              if (data.authenticated) {
+                authLinks.innerHTML = `
+                  <a href="/">Home</a>
+                  <a href="/logout">Logout</a>
+                `;
+              } else {
+                authLinks.innerHTML = `
+                  <a href="/login">Login</a>
+                  <a href="/signup">Sign Up</a>
+                `;
+              }
+            })
+            .catch(error => console.error('Error fetching auth status:', error));
+        });
+      </script>
+</body>
+
+</html>

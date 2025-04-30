@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footer</title>
+    <style>
+        footer {
+            flex-shrink: 0;
+            background-color: #3B6E71; /* Updated background colour to match our header */
+            color: #fff; /* White text color */
+            padding: 1.5rem; /* Padding */
+            margin-top: 3rem; /* Margin top */
+        }
+
+        footer h5 {
+            color: #fff;
+        }
+
+        footer a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #ddd;
+        }
+
+        .footer-logo {
+            width: 250px;
+            height: auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767.98px) {
+            .footer-logo {
+                width: 150px;
+            }
+
+            .text-center {
+                text-align: center !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <footer>
+        <div class="container text-center text-md-left">
+            <div class="row">
+                <div class="col-12 d-md-none text-center mb-4">
+                    <img src="/svg/logo.svg" alt="Footer Logo" class="footer-logo">
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>Contact Us</h5>
+                    <p>
+                        Aussie Paws & Claws Shelter<br>
+                        9A Majors Road, O'Halloran Hill<br>
+                        South Australia, 5158<br>
+                        Phone: 1300 477 722<br>
+                        Email: <a href="mailto:info@aussiepawsandclaws.org" class="text-white">mailto:info@aussiepawsandclaws.org</a>
+                    </p>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <!-- add more if needed -->
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="/adoption-page.html" class="text-white">Adoption</a></li>
+                        <li><a href="/donate-page.html" class="text-white">Donate</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 d-none d-md-flex justify-content-md-end align-items-center">
+                    <img src="/svg/logo.svg" alt="Footer Logo" class="footer-logo">
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

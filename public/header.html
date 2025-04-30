@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>header</title>
+    <link rel="stylesheet" href="path-to-bootstrap.css">
+    <style>
+        #logo-img, #logo {
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .navbar {
+            animation: fadeInDown 0.4s ease-in-out;
+            font-family: 'Roboto', sans-serif;
+            background-color: #3B6E71;
+        }
+
+        .nav-link.nav-button {
+            margin-left: 10px;
+            color: white;
+        }
+
+        .nav-link.nav-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar-toggler {
+            border: none;
+        }
+
+        .navbar-toggler-icon {
+            color: white;
+        }
+
+        @media (max-width: 767.98px) {
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Ensure elements are hidden by default */
+        #profile-item,
+        #logout-item,
+        #login-item,
+        #signup-item {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container d-flex justify-content-center align-items-center">
+            <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand mx-auto d-lg-none order-2"></a>
+            <a class="navbar-brand d-lg-block d-none" href="http://localhost:8080/">
+                <img src="/svg/logo.svg" alt="Logo" id="logo-img" class="d-inline-block align-center"> Aussie Paws & Claws Shelter
+            </a>
+            <a class="navbar-brand d-block d-lg-none ml-auto order-3" href="http://localhost:8080/">
+                <img src="/svg/logo.svg" alt="Logo" id="logo" class="d-inline-block align-center">
+            </a>
+
+
+            <div class="collapse navbar-collapse order-4" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link nav-button" href="/adoption-page.html">Adoption</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-button" href="/donate-page.html">Donate</a>
+                    </li>
+                    <li class="nav-item" id="profile-item">
+                        <a class="nav-link nav-button" href="/profile-page.html">Profile</a>
+                    </li>
+                    <li class="nav-item" id="logout-item">
+                        <a class="nav-link nav-button" href="/logout">Logout</a>
+                    </li>
+                    <li class="nav-item" id="login-item">
+                        <a class="nav-link nav-button" href="/login-page.html">Login</a>
+                    </li>
+                    <li class="nav-item" id="signup-item">
+                        <a class="nav-link nav-button" href="/signup-page.html">Sign Up</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelector('.navbar').classList.add('animated');
+
+            const isLoggedIn = false;
+            // Change visibility based on if the user is logged in or not
+            if (isLoggedIn) {
+                document.getElementById('profile-item').style.display = 'block';
+                document.getElementById('logout-item').style.display = 'block';
+                document.getElementById('login-item').style.display = 'none';
+                document.getElementById('signup-item').style.display = 'none';
+            } else {
+                document.getElementById('profile-item').style.display = 'none';
+                document.getElementById('logout-item').style.display = 'none';
+                document.getElementById('login-item').style.display = 'block';
+                document.getElementById('signup-item').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+
+</html>

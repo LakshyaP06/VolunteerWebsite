@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- using Bootstrap CSS framework -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- using Bootstrap Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css"
+        rel="stylesheet">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+    <link rel="stylesheet" href="/stylesheets/settings.css">
+
+    <title>Adopt a Pet - Aussie Paws & Claws Shelter</title>
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #app {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content {
+            flex: 1;
+        }
+
+        .hero-section {
+            background-color: #f2f2f2;
+            padding: 20px;
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .adoption-form {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        #map-container {
+            height: 400px;
+            width: 100%;
+            max-width: 1000px;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            display: block;
+        }
+
+        #map-container.hidden {
+            display: none;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        .hover-area {
+            position: fixed;
+            left: 0;
+            top: 60px;
+            height: calc(100vh - 60px);
+            width: 50px;
+            z-index: 999;
+            background: transparent;
+        }
+
+        .arrow-icon {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            font-size: 30px;
+            color: #007bff;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+            cursor: pointer;
+        }
+
+        .arrow-icon:hover {
+            opacity: 1;
+        }
+
+        .sidebar {
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: #FFFFFF;
+            position: fixed;
+            left: -260px;
+            top: 60px;
+            height: calc(100vh - 60px);
+            width: 260px;
+            overflow-y: auto;
+            transition: left 0.3s;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .sidebar.visible {
+            left: 0;
+        }
+
+        .sidebar h3 {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            flex-grow: 1;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar .bubble-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .sidebar .bubble-filter button {
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .sidebar .bubble-filter button.active {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .sidebar .bubble-filter button:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-hide-sidebar,
+        .btn-reset-filters {
+            margin-bottom: 10px;
+            background: none;
+            border: none;
+            color: #007bff;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: color 0.3s;
+        }
+
+        .btn-hide-sidebar:hover,
+        .btn-reset-filters:hover {
+            color: #0056b3;
+        }
+
+        .btn-reset-filters {
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .form-control {
+            margin-bottom: 10px;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .sidebar select.form-control {
+            width: 100%;
+            display: block;
+        }
+
+        .error-message {
+            text-align: center;
+            margin: 20px;
+            font-size: 18px;
+            color: red;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                margin-top: 20px;
+                padding: 15px;
+            }
+
+            .sidebar {
+                width: 100%;
+                left: -100%;
+                top: 0;
+                height: 100vh;
+                border-radius: 0;
+            }
+
+            .sidebar.visible {
+                left: 0;
+            }
+
+            .hover-area {
+                display: none;
+            }
+
+            .card-img-top {
+                height: 150px;
+            }
+
+            .card-body {
+                padding: 10px;
+            }
+
+            .card {
+                width: calc(100% - 20px);
+                margin: 10px auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!-- Placeholder for the imported header -->
+        <div id="header"></div>
+
+        <div class="content">
+            <!-- Hero section -->
+            <div class="hero-section">
+                <h1>{{ heroTitle }}</h1>
+                <p>{{ heroSubtitle }}</p>
+            </div>
+
+            <!-- Hover area for sidebar -->
+            <div class="hover-area">
+                <div class="arrow-icon">
+                    <i class="bi bi-arrow-right-circle-fill"></i>
+                </div>
+            </div>
+
+            <!-- Filter Sidebar -->
+            <div class="sidebar">
+                <h3>Filter Pets</h3>
+                <input type="text" class="form-control" placeholder="Search type of animal" v-model="typeSearch">
+                <div class="bubble-filter">
+                    <button v-for="type in types" :key="type" @click="toggleTypeFilter(type)"
+                        :class="{ active: selectedFilters.includes(type) }">{{ type }}</button>
+                </div>
+                <ul id="filter-options">
+                    <li>
+                        <label>
+                            Breed:
+                            <select v-model="breedFilter" class="form-control">
+                                <option value="">All</option>
+                                <option v-for="breed in filteredBreeds" :key="breed" :value="breed">{{ breed }}</option>
+                            </select>
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            Age:
+                            <select v-model="ageFilter" class="form-control">
+                                <option value="">All</option>
+                                <option value="0-6">0-6 months</option>
+                                <option value="7-11">7-11 months</option>
+                                <option value="12-24">1-2 years</option>
+                                <option value="25-60">3-5 years</option>
+                                <option value="61+">6+ years</option>
+                            </select>
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            Location:
+                            <select v-model="locationFilter" class="form-control">
+                                <option value="">All</option>
+                                <option v-for="location in locations" :key="location" :value="location">{{ location }}
+                                </option>
+                            </select>
+                        </label>
+                    </li>
+                </ul>
+                <button class="btn-reset-filters" @click="resetFilters">Reset Filters</button>
+                <button class="btn-hide-sidebar"><i class="bi bi-arrow-left-circle-fill"></i></button>
+            </div>
+
+            <!-- Error message section -->
+            <div class="error-message" v-if="noPetsFound">
+                <p>No pets found matching your criteria.</p>
+            </div>
+
+            <!-- Heading for shelters -->
+            <div class="container" v-if="!noPetsFound">
+                <h2>Available Pets</h2>
+                <div class="row">
+                    <pet-card v-for="pet in filteredPets" :key="pet.pet_id" :pet="pet" :shelters="shelters"
+                        @click.native="viewDetails(pet)"></pet-card>
+                </div>
+            </div>
+
+            <!-- Map section -->
+            <div id="map-container" :class="{ hidden: noPetsFound }">
+                <div id="map"></div>
+            </div>
+        </div>
+
+        <!-- Placeholder for the imported footer -->
+        <div id="footer"></div>
+    </div>
+
+    <!-- Vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <!-- Axios for AJAX requests -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/javascripts/header.js"></script> <!-- Include header.js -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <!-- <script src="/javascripts/adoption-page.js"></script> Include adoption-page.js -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Fetch and load the footer
+            fetch('footer.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('footer').innerHTML = data;
+                    const head = document.head;
+                    const link = document.createElement("link");
+                    link.type = "text/css";
+                    link.rel = "stylesheet";
+                    link.href = "/stylesheets/footer.css";
+                    head.appendChild(link);
+                });
+            // Vue component for adding pet cards
+            Vue.component('pet-card', {
+                props: ['pet', 'shelters'],
+                computed: {
+                    shelterName() {
+                        const shelter = this.shelters.find(shelter => shelter.shelter_id === this.pet.shelter_id);
+                        return shelter ? shelter.shelter_name : 'Unknown';
+                    }, // format age between months and years
+                    formattedAge() {
+                        const ageStr = this.pet.age;
+                        if (ageStr.includes("Months Old")) {
+                            const months = parseInt(ageStr);
+                            return `${months} month${months > 1 ? 's' : ''} old`;
+                        } else if (ageStr.includes("Years Old")) {
+                            const years = parseInt(ageStr);
+                            return `${years} year${years > 1 ? 's' : ''} old`;
+                        }
+                        return ageStr;
+                    }
+                }, // template
+                template: `
+                    <div class="col-md-4 col-sm-6 mb-3">
+                        <div class="card">
+                            <img :src="pet.image_url || 'default-image-url.jpg'" class="card-img-top" :alt="pet.name">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ pet.name }}</h5>
+                                <p class="card-text">
+                                    <strong>Type:</strong> {{ pet.type }}<br>
+                                    <strong>Gender:</strong> {{ pet.gender }}<br>
+                                    <strong>Age:</strong> {{ formattedAge }}<br>
+                                    <strong>Breed:</strong> {{ pet.breed }}<br>
+                                    <strong>Desexed:</strong> {{ pet.desexed }}<br>
+                                    <strong>Location:</strong> {{ shelterName }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>`
+            });
+            // Vue hero section
+            new Vue({
+                el: '#app',
+                data: {
+                    heroTitle: 'Find Your New Best Friend!',
+                    heroSubtitle: 'Browse our adorable pets waiting for a loving home.',
+                    pets: [],
+                    shelters: [],
+                    selectedFilters: [],
+                    breedFilter: '',
+                    ageFilter: '',
+                    locationFilter: '',
+                    breeds: [],
+                    types: ['Dog', 'Cat', 'Rabbit', 'Bird', 'Fish', 'Reptile'],
+                    locations: [],
+                    typeSearch: ''
+                },
+                computed: { // Filtering Pets
+                    filteredPets() {
+                        return this.pets.filter(pet => {
+                            const matchesTypeSearch = this.typeSearch === '' || pet.type.toLowerCase().includes(this.typeSearch.toLowerCase());
+                            const matchesTypeFilter = this.selectedFilters.length === 0 || this.selectedFilters.includes(pet.type);
+                            const matchesBreed = !this.breedFilter || this.breedFilter === pet.breed;
+                            const matchesAge = !this.ageFilter || this.ageMatches(pet.age, this.ageFilter);
+                            const matchesLocation = !this.locationFilter || this.locationFilter === this.getShelterName(pet.shelter_id);
+                            return matchesTypeSearch && matchesTypeFilter && matchesBreed && matchesAge && matchesLocation;
+                        });
+                    }, // Filltering breeds
+                    filteredBreeds() {
+                        if (this.selectedFilters.length === 0) {
+                            return this.breeds;
+                        }
+                        const selectedType = this.selectedFilters[0];
+                        return [...new Set(this.pets.filter(pet => pet.type === selectedType).map(pet => pet.breed))];
+                    },
+                    noPetsFound() {
+                        return this.filteredPets.length === 0;
+                    }
+                },
+                created() {
+                    this.fetchPets();
+                    this.fetchShelters();
+                },
+                methods: {
+                    fetchPets() {
+                        axios.get('/api/pets')
+                            .then(response => {
+                                if (response.data.success) {
+                                    this.pets = response.data.pets;
+                                    this.breeds = [...new Set(response.data.pets.map(pet => pet.breed))];
+                                } else {
+                                    console.error('Failed to fetch pets:', response.data.message);
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error fetching pets:', error);
+                            });
+                    },
+                    fetchShelters() {
+                        axios.get('/api/shelters')
+                            .then(response => {
+                                if (response.data.success) {
+                                    this.shelters = response.data.shelters;
+                                    this.locations = [...new Set(response.data.shelters.map(shelter => shelter.shelter_name))];
+                                } else {
+                                    console.error('Failed to fetch shelters:', response.data.message);
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error fetching shelters:', error);
+                            });
+                    },
+                    toggleFilterSidebar() {
+                        const sidebar = document.querySelector('.sidebar');
+                        sidebar.classList.toggle('visible');
+                    },
+                    toggleTypeFilter(type) {
+                        const index = this.selectedFilters.indexOf(type);
+                        if (index === -1) {
+                            this.selectedFilters.push(type);
+                        } else {
+                            this.selectedFilters.splice(index, 1);
+                        }
+                        this.breedFilter = '';
+                    },
+                    ageMatches(petAge, filter) {
+                        const months = this.convertToMonths(petAge);
+                        if (isNaN(months)) return false;
+                        const yearRanges = {
+                            "0-6": [0, 6],
+                            "7-11": [7, 11],
+                            "12-24": [12, 24],
+                            "25-60": [25, 60],
+                            "61+": [61, Infinity]
+                        };
+                        const range = yearRanges[filter];
+                        return range && months >= range[0] && months <= range[1];
+                    },
+                    convertToMonths(ageStr) {
+                        const match = ageStr.match(/(\d+)\s*(Months?|Years?)\s*Old/);
+                        if (!match) return NaN;
+                        const value = parseInt(match[1]);
+                        const unit = match[2].toLowerCase();
+                        return unit.startsWith('month') ? value : value * 12;
+                    },
+                    resetFilters() {
+                        this.selectedFilters = [];
+                        this.breedFilter = '';
+                        this.ageFilter = '';
+                        this.locationFilter = '';
+                        this.typeSearch = '';
+                    },
+                    getShelterName(shelter_id) {
+                        const shelter = this.shelters.find(shelter => shelter.shelter_id === shelter_id);
+                        return shelter ? shelter.shelter_name : '';
+                    },
+                    initMap() {
+                        this.map = L.map('map').setView([-33.9285, 137.3007], 7);
+
+                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            attribution: '&copy; OpenStreetMap contributors'
+                        }).addTo(this.map);
+
+                        const locations = [
+                            { lat: -35.051726, lng: 138.557845, title: '9a Majors Road, O"Halloran Hill' },
+                            { lat: -34.743192, lng: 135.854062, title: '22 Windsor Avenue, Port Lincoln' },
+                            { lat: -33.036756, lng: 137.546539, title: '7 Cook Street, Whyalla Norrie' }
+                        ];
+
+                        locations.forEach((location) => {
+                            const marker = L.marker([location.lat, location.lng]).addTo(this.map);
+                            marker.bindPopup(location.title);
+                        });
+
+                        // Apparently should add small delay for proper rendering
+                        setTimeout(() => {
+                            this.map.invalidateSize();
+                        }, 200);
+                    },
+                    viewDetails(pet) {
+                    }
+                },
+                mounted() {
+                    // Side Bar Settings
+                    const sidebar = document.querySelector('.sidebar');
+                    const hoverArea = document.querySelector('.hover-area');
+
+                    hoverArea.addEventListener('mouseenter', () => {
+                        sidebar.classList.add('visible');
+                    });
+
+                    document.querySelector('.btn-hide-sidebar').addEventListener('click', () => {
+                        sidebar.classList.remove('visible');
+                    });
+
+                    let startX;
+
+                    sidebar.addEventListener('touchstart', (e) => {
+                        startX = e.touches[0].clientX;
+                    });
+
+                    sidebar.addEventListener('touchmove', (e) => {
+                        const touch = e.touches[0];
+                        const change = startX - touch.clientX;
+                        if (change > 0) {
+                            sidebar.classList.remove('visible');
+                        } else if (change < 0) {
+                            sidebar.classList.add('visible');
+                        }
+                        e.preventDefault();
+                    });
+
+                    document.addEventListener('touchstart', (e) => {
+                        startX = e.touches[0].clientX;
+                    });
+
+                    document.addEventListener('touchmove', (e) => {
+                        const touch = e.touches[0];
+                        const change = touch.clientX - startX;
+                        if (change > 50) {
+                            sidebar.classList.add('visible');
+                        }
+                        e.preventDefault();
+                    });
+
+                    this.initMap();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

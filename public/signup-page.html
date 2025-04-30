@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Page</title>
+    <!-- Bootstrap CSS framework -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Material Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --mdc-theme-primary: #ffffff;
+            --mdc-theme-secondary: #6c757d;
+            --mdc-theme-background: #f5f5f5;
+            --mdc-theme-surface: #ffffff;
+            --mdc-theme-on-primary: #ffffff;
+            --mdc-theme-on-secondary: #000000;
+            --mdc-theme-on-surface: #000000;
+            --mdc-theme-error: #b00020;
+            --mdc-theme-on-error: #ffffff;
+        }
+
+        body {
+            background: var(--mdc-theme-background);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            display: flex;
+            border-radius: 12px;
+        }
+
+        .left-pane {
+            flex: 1;
+            background-color: #ffffff;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-top-left-radius: 12px;
+            border-bottom-left-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .right-pane {
+            flex: 1;
+            background-color: #3B6E71;
+            color: #ffffff;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-top-right-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+
+        .right-pane object {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .form-control::placeholder {
+            color: #b3b3b3;
+        }
+
+        .btn-custom {
+            background-color: var(--mdc-theme-primary);
+            color: #000000;
+            border: none;
+            border-radius: 8px;
+            height: 48px;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
+            width: 100%;
+            box-shadow: 0 0 0 3px var(--mdc-theme-primary), 0 0 0 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group label {
+            color: var(--mdc-theme-secondary);
+        }
+
+        .social-btns {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .social-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 48px;
+            border-radius: 8px;
+            color: #000000;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
+            box-shadow: 0 0 0 3px #ffffff, 0 0 0 4px rgba(0, 0, 0, 0.1); /* Inverted box shadow */
+        }
+
+        .social-btn:hover {
+            text-decoration: underline;
+            color: var(--mdc-theme-on-secondary);
+        }
+
+        .btn-google {
+            background-color: #ffffff;
+        }
+
+        .social-btn i {
+            margin-right: 10px;
+        }
+
+        .login-link {
+            color: var(--mdc-theme-secondary);
+            text-align: center;
+            margin-top: 20px;
+            display: block;
+        }
+
+        .login-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .social-btn {
+                margin: 10px 0;
+            }
+        }
+
+        .password-error {
+            color: red;
+            font-size: 0.9em;
+            display: none;
+        }
+
+        .alert {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Left Pane -->
+        <div class="left-pane">
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="first-name">First Name</label>
+                    <input type="text" class="form-control" id="first-name" name="firstName" placeholder="Enter first name" required>
+                </div>
+                <div class="form-group">
+                    <label for="last-name">Last Name</label>
+                    <input type="text" class="form-control" id="last-name" name="lastName" placeholder="Enter last name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                    <div class="password-error" id="passwordError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirm-password" name="confirm-password" placeholder="Confirm Password" required>
+                </div>
+                <div id="passwordMismatchError" class="alert alert-danger" role="alert">
+                    Password and Confirm Password do not match.
+                </div>
+                <button type="submit" class="btn btn-custom">Sign Up</button>
+            </form>
+            <div class="social-btns">
+                <a href="/auth/google" class="social-btn btn-google">
+                    <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google Logo" style="height: 24px; width: 24px; margin-right: 10px;">
+                    Sign Up with Google
+                </a>
+            </div>
+            <a href="/login-page.html" class="login-link">Already have an account? Login</a>
+        </div>
+
+        <!-- Right Pane -->
+        <div class="right-pane">
+            <object type="image/svg+xml" data="/svg/logo.svg" width="100%" height="auto"></object>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="errorModalBody">
+                    <!-- Error message will be displayed here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap and jQuery Scripts -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script>
+        // Function to output the error message
+        function showErrorModal(message) {
+            $('#errorModalBody').text(message);
+            $('#errorModal').modal('show');
+        }
+
+        // Function that checks if the password meets the security conditions, if not it will output the feedback to the user
+        function validatePassword() {
+            const password = $('#password').val();
+            let errorMessage = '';
+
+            if (!/(?=.*\d)/.test(password)) {
+                errorMessage = 'Password must contain at least one number.';
+            } else if (!/(?=.*[a-z])/.test(password)) {
+                errorMessage = 'Password must contain at least one lowercase letter.';
+            } else if (!/(?=.*[A-Z])/.test(password)) {
+                errorMessage = 'Password must contain at least one uppercase letter.';
+            } else if (password.length < 8) {
+                errorMessage = 'Password must be at least 8 characters long.';
+            }
+
+            if (errorMessage) {
+                $('#passwordError').text(errorMessage).show();
+                return false;
+            } else {
+                $('#passwordError').hide();
+                return true;
+            }
+        }
+
+        $('#password').on('input', validatePassword);
+
+        $('#signupForm').on('submit', function (event) {
+            event.preventDefault();
+
+            const password = $('#password').val();
+            const confirmPassword = $('#confirm-password').val();
+
+            if (password !== confirmPassword) {
+                $('#passwordMismatchError').show();
+                return;
+            } else {
+                $('#passwordMismatchError').hide();
+            }
+
+            if (!validatePassword()) {
+                return;
+            }
+
+            const formData = $(this).serialize();
+
+            $.post('/signup', formData, function (response) {
+                window.location.href = '/';
+            }).fail(function (xhr) {
+                showErrorModal(xhr.responseJSON.error);
+            });
+        });
+    </script>
+</body>
+
+</html>
