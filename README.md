@@ -1,4 +1,4 @@
-# 2023 Project - Volunteer Website 
+# 2024 Project - Volunteer Website 
 This project was created with 2 other students from University of Adelaide.
 
 Pet Shelter was a full-stack web application designed to streamline volunteer coordination for animal shelters and community organizations, similar to RSPCA. The platform connects volunteers with shelters, facilitates event management, and provides robust tools for administrators and organization managers. Built with modern web technologies, it emphasizes usability, accessibility, and seamless interaction across all user roles.
